@@ -1,4 +1,3 @@
-## Help
 ![green-divider](https://user-images.githubusercontent.com/7065401/52071924-c003ad80-2562-11e9-8297-1c6595f8a7ff.png)
 ### Instalar Git
 Acontinuacion usando la terminal
@@ -33,8 +32,15 @@ cambie a otra rama para que sea la activa, puede comprobrar que efectivamente ca
 para subir esta nueva rama al repositorio en github (si no solo va a esta almacenado en su dispositivo)
 
 #### Cuando termina de trabajar (en vs code)
+
+```git add iap1-tp.hs```<br />
+debe preparar los cambios antes de confirmarlos (en general vamos a editar solo ese archivo 'iap1-tp.hs')
+
+```git commit -m "[comentario]"```<br />
+esto creará una nueva confirmación con los cambios que realizó, junto con un mensaje de confirmación que describe los cambios
+
 ```git push``` <br />
-para actualizar los cambios en el repositorio en la pagina de github
+es necesario después de confirmar para enviar los cambios al repositorio remoto en GitHub.
 
 #### Solicitar que su trabajo se implemente en la rama principal
 Para ello use la pagina de github que es mas amigable, tiene que crear un ```New pull request```, seleccionar la rama con la que trabajo y que sea implementar en el ```mean```.
