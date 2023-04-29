@@ -1,7 +1,7 @@
 -- Completar con los datos del grupo
 --
--- Nombre de Grupo: xx
--- Integrante 1: Nombre Apellido, email, LU
+-- Nombre de Grupo: DevDinasty
+-- Integrante 1: Aaron Bernal Huanca, aaronbernal28@gmail.com, 815/22
 -- Integrante 2: Nombre Apellido, email, LU
 -- Integrante 3: Nombre Apellido, email, LU
 -- Integrante 4: Nombre Apellido, email, LU
