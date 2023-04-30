@@ -34,8 +34,10 @@ usuarioDePublicacion (u, _, _) = u
 likesDePublicacion :: Publicacion -> [Usuario]
 likesDePublicacion (_, _, us) = us
 
--- Ejercicios
+-- Ejercicios 
 
+-- Nico y Nacho
+-- describir qué hace la función: .....
 nombresDeUsuarios :: RedSocial -> [String]
 nombresDeUsuarios = undefined
 
@@ -55,6 +57,7 @@ usuarioConMasAmigos = undefined
 estaRobertoCarlos :: RedSocial -> Bool
 estaRobertoCarlos = undefined
 
+-- Aaron
 -- describir qué hace la función: .....
 publicacionesDe :: RedSocial -> Usuario -> [Publicacion]
 publicacionesDe = undefined
@@ -67,6 +70,7 @@ publicacionesQueLeGustanA = undefined
 lesGustanLasMismasPublicaciones :: RedSocial -> Usuario -> Usuario -> Bool
 lesGustanLasMismasPublicaciones = undefined
 
+-- Agustin
 -- describir qué hace la función: .....
 tieneUnSeguidorFiel :: RedSocial -> Usuario -> Bool
 tieneUnSeguidorFiel = undefined
@@ -74,3 +78,65 @@ tieneUnSeguidorFiel = undefined
 -- describir qué hace la función: .....
 existeSecuenciaDeAmigos :: RedSocial -> Usuario -> Usuario -> Bool
 existeSecuenciaDeAmigos = undefined
+
+-- Predicados Auxiliares
+
+-- Nico y Nacho
+pertence :: t -> [t] -> Bool
+pertence = undefined
+
+mismosElementos :: [t] -> [t] -> Bool
+mismosElementos = undefined
+
+redSocialValida :: RedSocial -> Bool
+redSocialValida = undefined
+
+usuariosValidos :: [Usuario] -> Bool
+usuariosValidos = undefined
+
+usuarioValido :: Usuario -> Bool
+usuarioValido = undefined
+
+noHayIdsRepetidos :: [Usuario] -> Bool
+noHayIdsRepetidos = undefined
+
+relacionesValidas :: [Usuario] -> [Relacion] -> Bool
+relacionesValidas = undefined
+
+usuariosDeRelacionValidos :: [Usuario] -> [Relacion] -> Bool
+usuariosDeRelacionValidos = undefined
+
+relacionesAsimetricas :: [Relacion] -> Bool
+relacionesAsimetricas = undefined
+
+-- Aaron
+noHayRelacionesRepetidas :: [Relacion] -> Bool
+noHayRelacionesRepetidas = undefined
+
+publicacionesValidas :: [Usuario] -> [Publicacion] -> Bool
+publicacionesValidas = undefined
+
+usuariosDePublicacionSonUsuariosDeRed :: [Usuario] -> [Publicacion] -> Bool
+usuariosDePublicacionSonUsuariosDeRed = undefined
+
+noHayPublicacionesRepetidas :: [Publicacion] -> Bool
+noHayPublicacionesRepetidas = undefined
+
+cadenaDeAmigos :: [Usuario] -> RedSocial -> Bool
+cadenaDeAmigos = undefined
+
+-- Agustin
+relacionadosDirecto :: Usuario -> Usuario -> RedSocial -> Bool
+relacionadosDirecto = undefined
+
+sonDeLaRed :: RedSocial -> [Usuario] -> Bool
+sonDeLaRed = undefined
+
+empiezaCon :: t -> [t] -> Bool
+empiezaCon = undefined
+
+terminaCon :: t -> [t] -> Bool
+terminaCon = undefined
+
+sinRepetidos :: [t] -> Bool
+sinRepetidos = undefined
