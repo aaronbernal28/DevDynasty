@@ -58,17 +58,32 @@ estaRobertoCarlos :: RedSocial -> Bool
 estaRobertoCarlos = undefined
 
 -- Aaron
--- describir qué hace la función: .....
+-- describir qué hace la función:
+-- toma la lista de publicaciones de RedSocial (red) y devuelve las que fueron creadas por usuario (u)
 publicacionesDe :: RedSocial -> Usuario -> [Publicacion]
-publicacionesDe = undefined
+publicacionesDe red u = publicacionesDeAux (publicaciones red) u
 
--- describir qué hace la función: .....
+publicacionesDeAux :: [Publicacion] -> Usuario -> [Publicacion]
+publicacionesDeAux [] u = []
+publicacionesDeAux (pub:pubs) u
+    | usuarioDePublicacion pub == u = pub : publicacionesDeAux pubs u 
+    | otherwise = publicacionesDeAux pubs u
+
+-- describir qué hace la función:
+-- toma la lista de publicaciones de red y devuelve las publicaciones que le gustaron a usuario (u)
 publicacionesQueLeGustanA :: RedSocial -> Usuario -> [Publicacion]
-publicacionesQueLeGustanA = undefined
+publicacionesQueLeGustanA red u = publicacionesQueLeGustanAAux (publicaciones red) u
 
--- describir qué hace la función: .....
+publicacionesQueLeGustanAAux :: [Publicacion] -> Usuario -> [Publicacion]
+publicacionesQueLeGustanAAux [] u = []
+publicacionesQueLeGustanAAux (pub:pubs) u
+    | pertence u (likesDePublicacion pub) = pub : publicacionesQueLeGustanAAux pubs u
+    | otherwise = publicacionesQueLeGustanAAux pubs u
+
+-- describir qué hace la función:
+-- devuelve true sii a los dos usuarios les gustaron las mismas publicaciones, comparo las dos listas
 lesGustanLasMismasPublicaciones :: RedSocial -> Usuario -> Usuario -> Bool
-lesGustanLasMismasPublicaciones = undefined
+lesGustanLasMismasPublicaciones red u1 u2 = mismosElementos (publicacionesQueLeGustanA red u1) (publicacionesQueLeGustanA red u2)
 
 -- Agustin
 -- describir qué hace la función: .....
@@ -81,51 +96,15 @@ existeSecuenciaDeAmigos = undefined
 
 -- Predicados Auxiliares
 
--- Nico y Nacho
 pertence :: t -> [t] -> Bool
 pertence = undefined
 
 mismosElementos :: [t] -> [t] -> Bool
 mismosElementos = undefined
 
-redSocialValida :: RedSocial -> Bool
-redSocialValida = undefined
-
-usuariosValidos :: [Usuario] -> Bool
-usuariosValidos = undefined
-
-usuarioValido :: Usuario -> Bool
-usuarioValido = undefined
-
-noHayIdsRepetidos :: [Usuario] -> Bool
-noHayIdsRepetidos = undefined
-
-relacionesValidas :: [Usuario] -> [Relacion] -> Bool
-relacionesValidas = undefined
-
-usuariosDeRelacionValidos :: [Usuario] -> [Relacion] -> Bool
-usuariosDeRelacionValidos = undefined
-
-relacionesAsimetricas :: [Relacion] -> Bool
-relacionesAsimetricas = undefined
-
--- Aaron
-noHayRelacionesRepetidas :: [Relacion] -> Bool
-noHayRelacionesRepetidas = undefined
-
-publicacionesValidas :: [Usuario] -> [Publicacion] -> Bool
-publicacionesValidas = undefined
-
-usuariosDePublicacionSonUsuariosDeRed :: [Usuario] -> [Publicacion] -> Bool
-usuariosDePublicacionSonUsuariosDeRed = undefined
-
-noHayPublicacionesRepetidas :: [Publicacion] -> Bool
-noHayPublicacionesRepetidas = undefined
-
 cadenaDeAmigos :: [Usuario] -> RedSocial -> Bool
 cadenaDeAmigos = undefined
 
--- Agustin
 relacionadosDirecto :: Usuario -> Usuario -> RedSocial -> Bool
 relacionadosDirecto = undefined
 
@@ -140,3 +119,4 @@ terminaCon = undefined
 
 sinRepetidos :: [t] -> Bool
 sinRepetidos = undefined
+
