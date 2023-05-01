@@ -77,7 +77,7 @@ publicacionesQueLeGustanA red u = publicacionesQueLeGustanAAux (publicaciones re
 publicacionesQueLeGustanAAux :: [Publicacion] -> Usuario -> [Publicacion]
 publicacionesQueLeGustanAAux [] u = []
 publicacionesQueLeGustanAAux (pub:pubs) u
-    | pertence u (likesDePublicacion pub) = pub : publicacionesQueLeGustanAAux pubs u
+    | pertenece u (likesDePublicacion pub) = pub : publicacionesQueLeGustanAAux pubs u
     | otherwise = publicacionesQueLeGustanAAux pubs u
 
 -- describir qué hace la función:
@@ -96,11 +96,16 @@ existeSecuenciaDeAmigos = undefined
 
 -- Predicados Auxiliares
 
-pertence :: t -> [t] -> Bool
-pertence = undefined
+pertenece :: (Eq t) => t -> [t] -> Bool
+pertenece e [] = False
+pertenece e (x:xs) = e == x || pertenece e xs
 
-mismosElementos :: [t] -> [t] -> Bool
-mismosElementos = undefined
+mismosElementos :: (Eq t) => [t] -> [t] -> Bool
+mismosElementos xs ys = incluido xs ys && incluido ys xs
+
+incluido :: (Eq t) => [t] -> [t] -> Bool
+incluido [] ys = True
+incluido (x:xs) ys = pertenece x ys && incluido xs ys
 
 cadenaDeAmigos :: [Usuario] -> RedSocial -> Bool
 cadenaDeAmigos = undefined
@@ -109,14 +114,21 @@ relacionadosDirecto :: Usuario -> Usuario -> RedSocial -> Bool
 relacionadosDirecto = undefined
 
 sonDeLaRed :: RedSocial -> [Usuario] -> Bool
-sonDeLaRed = undefined
+sonDeLaRed red [] = True
+sonDeLaRed red (u:us) = pertenece u (usuarios red) && sonDeLaRed red us
 
-empiezaCon :: t -> [t] -> Bool
-empiezaCon = undefined
+empiezaCon :: (Eq t) => t -> [t] -> Bool
+empiezaCon e ls = ls /= [] && head ls == e
 
-terminaCon :: t -> [t] -> Bool
-terminaCon = undefined
+terminaCon :: (Eq t) => t -> [t] -> Bool
+terminaCon e ls = elUltimo ls == e
 
-sinRepetidos :: [t] -> Bool
-sinRepetidos = undefined
+elUltimo :: [t] -> t
+elUltimo [x] = x
+elUltimo xs = elUltimo (tail xs)
+
+sinRepetidos :: (Eq t) => [t] -> Bool
+sinRepetidos [] = True
+sinRepetidos (x:xs) = not (pertenece x xs) && sinRepetidos xs
+
 
