@@ -184,5 +184,3 @@ elUltimo xs = elUltimo (tail xs)
 sinRepetidos :: (Eq t) => [t] -> Bool
 sinRepetidos [] = True
 sinRepetidos (x:xs) = not (pertenece x xs) && sinRepetidos xs
-
-
