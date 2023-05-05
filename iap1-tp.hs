@@ -39,13 +39,27 @@ likesDePublicacion (_, _, us) = us
 nombresDeUsuarios :: RedSocial -> [String]
 nombresDeUsuarios = undefined
 
--- describir qué hace la función: .....
+-- toma un usuario (u) de la RedSocial (red) y devuelve una lista de todos los usuarios (u) con los cuales se relaciona
 amigosDe :: RedSocial -> Usuario -> [Usuario]
-amigosDe = undefined
+amigosDe red u = amigosDeAux (relaciones red) u
 
--- describir qué hace la función: .....
-cantidadDeAmigos :: RedSocial -> Usuario -> Int
-cantidadDeAmigos = undefined
+amigosDeAux :: [Relacion] -> Usuario -> [Usuario]
+amigosDeAux [] u = []
+amigosDeAux (rel:rels) u
+    | estaRelacionado rel u = laRelacion rel u : amigosDeAux rels u
+    | otherwise = amigosDeAux rels u
+
+estaRelacionado :: Relacion -> Usuario -> Bool
+estaRelacionado (x,y) u = x == u || y == u
+
+laRelacion :: Relacion -> Usuario -> Usuario
+laRelacion (x,y) u
+    | x == u = y
+    | otherwise = x
+
+-- toma un usuario (u) de la RedSocial (red) y devuelve la cantidad de amigosDe del usuario (u)
+cantidadDeAmigos :: RedSocial -> Usuario -> Integer
+cantidadDeAmigos red u = longitud (amigosDe red u)
 
 -- describir qué hace la función: .....
 usuarioConMasAmigos :: RedSocial -> Usuario
@@ -124,7 +138,7 @@ existeSecuenciaDeAmigos (users,rel,posts) us1 us2 = auxExisteSecuenciaDeAmigos u
 auxExisteSecuenciaDeAmigos :: [Usuario] ->  [Usuario] -> [Usuario] ->RedSocial -> Usuario -> Usuario -> Bool
 
 auxExisteSecuenciaDeAmigos u1 lista users red us1 us2 |cadenaDeAmigos (us1:[us2]) red = True
-
+ |cantidadDeAmigos red us1 == 0 || cantidadDeAmigos red us2 == 0 = False
                                                 |cadenaDeAmigos lista red && empiezaCon us1 lista && terminaCon us2 lista = True
 
                                                 |longitud lista < 1 && not(pertenece us1 lista) = auxExisteSecuenciaDeAmigos u1 (us1:lista) users red us1 us2
@@ -160,9 +174,10 @@ incluido (x:xs) ys = pertenece x ys && incluido xs ys
 
 cadenaDeAmigos :: [Usuario] -> RedSocial -> Bool
 cadenaDeAmigos [] rs = False
-cadenaDeAmigos [x] rs = True
-cadenaDeAmigos us rs |relacionadosDirecto (head us) (head (tail us)) rs = cadenaDeAmigos (tail us) rs
-                     |otherwise = False
+cadenaDeAmigos us rs 
+ |longitud us == 1 && cantidadDeAmigos rs (head us)>=1 = True
+ |relacionadosDirecto (head us) (head (tail us)) rs = cadenaDeAmigos (tail us) rs
+ |otherwise = False
 
 relacionadosDirecto :: Usuario -> Usuario -> RedSocial -> Bool
 relacionadosDirecto us1 us2 rs = pertenece (us1,us2) (relaciones rs) || pertenece (us2,us1) (relaciones rs)
@@ -184,3 +199,52 @@ elUltimo xs = elUltimo (tail xs)
 sinRepetidos :: (Eq t) => [t] -> Bool
 sinRepetidos [] = True
 sinRepetidos (x:xs) = not (pertenece x xs) && sinRepetidos xs
+
+
+-- Ejemplos
+
+usuario1 = (1, "Juan")
+usuario2 = (2, "Natalia")
+usuario3 = (3, "Pedro")
+usuario4 = (4, "Mariela")
+usuario5 = (5, "Natalia")
+
+relacion1_2 = (usuario1, usuario2)
+relacion1_3 = (usuario1, usuario3)
+relacion1_4 = (usuario4, usuario1) -- Notar que el orden en el que aparecen los usuarios es indistinto
+relacion2_3 = (usuario3, usuario2)
+relacion2_4 = (usuario2, usuario4)
+relacion3_4 = (usuario4, usuario3)
+
+publicacion1_1 :: ((Integer, [Char]), [Char], [(Integer, [Char])])
+publicacion1_1 = (usuario1, "Este es mi primer post", [usuario2, usuario4])
+publicacion1_2 = (usuario1, "Este es mi segundo post", [usuario4])
+publicacion1_3 = (usuario1, "Este es mi tercer post", [usuario2, usuario5])
+publicacion1_4 = (usuario1, "Este es mi cuarto post", [])
+publicacion1_5 = (usuario1, "Este es como mi quinto post", [usuario5])
+
+publicacion2_1 = (usuario2, "Hello World", [usuario4])
+publicacion2_2 = (usuario2, "Good Bye World", [usuario1, usuario4])
+
+publicacion3_1 = (usuario3, "Lorem Ipsum", [])
+publicacion3_2 = (usuario3, "dolor sit amet", [usuario2])
+publicacion3_3 = (usuario3, "consectetur adipiscing elit", [usuario2, usuario5])
+
+publicacion4_1 = (usuario4, "I am Alice. Not", [usuario1, usuario2])
+publicacion4_2 = (usuario4, "I am Bob", [])
+publicacion4_3 = (usuario4, "Just kidding, i am Mariela", [usuario1, usuario3])
+
+
+usuariosA = [usuario1, usuario2, usuario3, usuario4,usuario5]
+relacionesA :: [((Integer, [Char]), (Integer, [Char]))]
+relacionesA = [relacion1_2, relacion1_4, relacion2_3, relacion2_4, relacion3_4]
+publicacionesA = [publicacion1_1, publicacion1_2, publicacion2_1, publicacion2_2, publicacion3_2, publicacion3_3, publicacion4_1, publicacion4_2]
+redA :: ([(Integer, [Char])], [((Integer, [Char]), (Integer, [Char]))],
+ [((Integer, [Char]), [Char], [(Integer, [Char])])])
+redA = (usuariosA, relacionesA, publicacionesA)
+
+usuariosB :: [(Integer, [Char])]
+usuariosB = [usuario1, usuario2, usuario3, usuario5]
+relacionesB = [relacion1_2, relacion2_3]
+publicacionesB = [publicacion1_3, publicacion1_4, publicacion1_5, publicacion3_1, publicacion3_2, publicacion3_3]
+redB = (usuariosB, relacionesB, publicacionesB)
