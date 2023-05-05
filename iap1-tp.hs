@@ -86,9 +86,35 @@ lesGustanLasMismasPublicaciones :: RedSocial -> Usuario -> Usuario -> Bool
 lesGustanLasMismasPublicaciones red u1 u2 = mismosElementos (publicacionesQueLeGustanA red u1) (publicacionesQueLeGustanA red u2)
 
 -- Agustin
--- describir qué hace la función: .....
+-- devuelve true si algún usuario le dio "me gusta" a todas las publicaciones del usuario
 tieneUnSeguidorFiel :: RedSocial -> Usuario -> Bool
-tieneUnSeguidorFiel = undefined
+tieneUnSeguidorFiel rs us = likeATodasLasPubs (listaDeLikes rs us ) rs us
+
+auxListaDeLikes :: [Publicacion] -> [Usuario] -> [Usuario]
+auxListaDeLikes [] listaLikes = listaLikes
+auxListaDeLikes pub listaLikes = auxListaDeLikes (tail pub) (likesDePublicacion (head pub)++listaLikes)
+
+--devuelve la lista de usuarios que le dieron "me gusta" a las publicaciones del usuario que se ingresa por parámetro
+listaDeLikes :: RedSocial -> Usuario -> [Usuario] 
+listaDeLikes rs us = auxListaDeLikes (publicacionesDe rs  us) []
+
+likeATodasLasPubs :: [Usuario] -> RedSocial -> Usuario -> Bool
+
+likeATodasLasPubs us ([], rel, posts) usuario = False
+
+likeATodasLasPubs usersDieronLike (users, rel, posts) usuario 
+ |publicacionesDe (users, rel, posts) usuario == [] || cantidadDeApariciones usuario usersDieronLike == longitud (publicacionesDe (users, rel, posts) usuario) = False
+ |cantidadDeApariciones (head users) usersDieronLike == longitud (publicacionesDe (users, rel, posts) usuario) = True
+ |otherwise = likeATodasLasPubs usersDieronLike ((tail users),rel,posts) usuario
+
+cantidadDeApariciones :: (Eq t) => t -> [t] -> Integer
+cantidadDeApariciones e [] = 0
+cantidadDeApariciones e lista |head lista == e = 1 + cantidadDeApariciones e (tail(lista))
+                              |otherwise = cantidadDeApariciones e (tail(lista))
+
+longitud :: [t] -> Integer
+longitud [] = 0
+longitud (x:xs) = 1 + longitud xs
 
 -- describir qué hace la función: .....
 existeSecuenciaDeAmigos :: RedSocial -> Usuario -> Usuario -> Bool
