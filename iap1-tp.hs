@@ -175,6 +175,7 @@ incluido (x:xs) ys = pertenece x ys && incluido xs ys
 cadenaDeAmigos :: [Usuario] -> RedSocial -> Bool
 cadenaDeAmigos [] rs = False
 cadenaDeAmigos us rs 
+ |longitud us == 1 && cantidadDeAmigos rs (head us) == 0 = False
  |longitud us == 1 && cantidadDeAmigos rs (head us)>=1 = True
  |relacionadosDirecto (head us) (head (tail us)) rs = cadenaDeAmigos (tail us) rs
  |otherwise = False
