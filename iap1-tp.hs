@@ -116,9 +116,35 @@ longitud :: [t] -> Integer
 longitud [] = 0
 longitud (x:xs) = 1 + longitud xs
 
--- describir qué hace la función: .....
+-- determina si existe una lista de usuarios que son amigos el primero con el segundo, el segundo con el tercero y así sucesivamente hasta el final de la lista. Dicha lista comienza con el primer usuario ingresado como parámetro y termina con el segundo.
 existeSecuenciaDeAmigos :: RedSocial -> Usuario -> Usuario -> Bool
-existeSecuenciaDeAmigos = undefined
+existeSecuenciaDeAmigos ([],rel,posts) us1 us2 = False
+existeSecuenciaDeAmigos ([x],rel,posts) us1 us2 = False
+existeSecuenciaDeAmigos (users,rel,posts) us1 us2 = auxExisteSecuenciaDeAmigos users [] users (users,rel,posts) us1 us2
+
+auxExisteSecuenciaDeAmigos :: [Usuario] ->  [Usuario] -> [Usuario] ->RedSocial -> Usuario -> Usuario -> Bool
+
+auxExisteSecuenciaDeAmigos u1 lista users red us1 us2 |cadenaDeAmigos (us1:[us2]) red = True
+
+                                                |cadenaDeAmigos lista red && empiezaCon us1 lista && terminaCon us2 lista = True
+
+                                                |longitud lista < 1 && not(pertenece us1 lista) = auxExisteSecuenciaDeAmigos u1 (us1:lista) users red us1 us2
+
+                                                |pertenece us1 lista && longitud lista < 2 && u1/=[] && cadenaDeAmigos [head u1,us1] red = auxExisteSecuenciaDeAmigos (tail u1) (lista++[head u1]) users red us1 us2
+
+                                                |cadenaDeAmigos lista red && empiezaCon us1 lista && cadenaDeAmigos [elUltimo lista, us2] red = auxExisteSecuenciaDeAmigos u1 (lista++[us2]) users red us1 us2
+
+                                                |longitud lista >= 2 && u1/=[] && cadenaDeAmigos [head u1, elUltimo lista] red= auxExisteSecuenciaDeAmigos (tail u1) (lista++[head u1]) users red us1 us2
+
+                                                |u1 == [] && users/=[] && longitud lista >=2 && not(cadenaDeAmigos [elUltimo lista,us2] red) && not(pertenece (head users) lista) && cadenaDeAmigos [elUltimo lista, head users] red = auxExisteSecuenciaDeAmigos u1 (lista++[head users]) (tail users) red us1 us2
+
+                                                |u1 == [] && users/=[] && longitud lista >=2 && not(cadenaDeAmigos [elUltimo lista,us2] red) && not(pertenece (head users) lista) && not(cadenaDeAmigos [elUltimo lista, head users] red) = auxExisteSecuenciaDeAmigos u1 lista (tail users) red us1 us2
+
+                                                |u1 == [] && users/=[] && longitud lista >=2 && not(cadenaDeAmigos [elUltimo lista,us2] red) && pertenece (head users) lista = auxExisteSecuenciaDeAmigos u1 lista (tail users) red us1 us2
+
+                                                |u1==[] && users==[] && not(cadenaDeAmigos lista red && empiezaCon us1 lista && terminaCon us2 lista) = False
+
+                                                |otherwise = auxExisteSecuenciaDeAmigos (tail u1) lista users red us1 us2
 
 -- Predicados Auxiliares
 
