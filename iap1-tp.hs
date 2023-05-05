@@ -1,10 +1,8 @@
--- Completar con los datos del grupo
---
 -- Nombre de Grupo: DevDynasty
 -- Integrante 1: Aaron Bernal Huanca, aaronbernal28@gmail.com, 815/22
--- Integrante 2: Nombre Apellido, email, LU
--- Integrante 3: Nombre Apellido, email, LU
--- Integrante 4: Nombre Apellido, email, LU
+-- Integrante 2: Agustín Benedicto Perez Cometto, agustinperez9615@gmail.com, 1141/22
+-- Integrante 3: Ignacio Alan Ibañez, ibanez.igna@gmail.com, 858/23
+-- Integrante 4: Nicolas Alejandro Proz, proznicolas1993@gmail.com, 121/23
 
 type Usuario = (Integer, String) -- (id, nombre)
 type Relacion = (Usuario, Usuario) -- usuarios que se relacionan
@@ -160,10 +158,13 @@ incluido [] ys = True
 incluido (x:xs) ys = pertenece x ys && incluido xs ys
 
 cadenaDeAmigos :: [Usuario] -> RedSocial -> Bool
-cadenaDeAmigos = undefined
+cadenaDeAmigos [] rs = False
+cadenaDeAmigos [x] rs = True
+cadenaDeAmigos us rs |relacionadosDirecto (head us) (head (tail us)) rs = cadenaDeAmigos (tail us) rs
+                     |otherwise = False
 
 relacionadosDirecto :: Usuario -> Usuario -> RedSocial -> Bool
-relacionadosDirecto = undefined
+relacionadosDirecto us1 us2 rs = pertenece (us1,us2) (relaciones rs) || pertenece (us2,us1) (relaciones rs)
 
 sonDeLaRed :: RedSocial -> [Usuario] -> Bool
 sonDeLaRed red [] = True
