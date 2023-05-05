@@ -78,13 +78,12 @@ publicacionesQueLeGustanAAux (pub:pubs) u
     | pertenece u (likesDePublicacion pub) = pub : publicacionesQueLeGustanAAux pubs u
     | otherwise = publicacionesQueLeGustanAAux pubs u
 
--- describir qué hace la función:
--- devuelve true sii a los dos usuarios les gustaron las mismas publicaciones, comparo las dos listas
+-- Devuelve true si a los dos usuarios les gustaron las mismas publicaciones, comparo las dos listas
 lesGustanLasMismasPublicaciones :: RedSocial -> Usuario -> Usuario -> Bool
 lesGustanLasMismasPublicaciones red u1 u2 = mismosElementos (publicacionesQueLeGustanA red u1) (publicacionesQueLeGustanA red u2)
 
 -- Agustin
--- devuelve true si algún usuario le dio "me gusta" a todas las publicaciones del usuario
+-- Devuelve true si algún usuario le dio "me gusta" a todas las publicaciones del usuario
 tieneUnSeguidorFiel :: RedSocial -> Usuario -> Bool
 tieneUnSeguidorFiel rs us = likeATodasLasPubs (listaDeLikes rs us ) rs us
 
@@ -92,10 +91,11 @@ auxListaDeLikes :: [Publicacion] -> [Usuario] -> [Usuario]
 auxListaDeLikes [] listaLikes = listaLikes
 auxListaDeLikes pub listaLikes = auxListaDeLikes (tail pub) (likesDePublicacion (head pub)++listaLikes)
 
---devuelve la lista de usuarios que le dieron "me gusta" a las publicaciones del usuario que se ingresa por parámetro
+--Devuelve la lista de usuarios que le dieron "me gusta" a las publicaciones del usuario que se ingresa por parámetro
 listaDeLikes :: RedSocial -> Usuario -> [Usuario] 
 listaDeLikes rs us = auxListaDeLikes (publicacionesDe rs  us) []
 
+--Determina si un usuario (distinto al usuario ingresado como parámetro) le dio "me gusta" a todas las publicaciones realizadas por el usuario ingresado como parámetro.
 likeATodasLasPubs :: [Usuario] -> RedSocial -> Usuario -> Bool
 
 likeATodasLasPubs us ([], rel, posts) usuario = False
@@ -105,6 +105,7 @@ likeATodasLasPubs usersDieronLike (users, rel, posts) usuario
  |cantidadDeApariciones (head users) usersDieronLike == longitud (publicacionesDe (users, rel, posts) usuario) = True
  |otherwise = likeATodasLasPubs usersDieronLike ((tail users),rel,posts) usuario
 
+--Devuelve la cantidad de veces que aparece un elemento en una lista
 cantidadDeApariciones :: (Eq t) => t -> [t] -> Integer
 cantidadDeApariciones e [] = 0
 cantidadDeApariciones e lista |head lista == e = 1 + cantidadDeApariciones e (tail(lista))
@@ -114,7 +115,7 @@ longitud :: [t] -> Integer
 longitud [] = 0
 longitud (x:xs) = 1 + longitud xs
 
--- determina si existe una lista de usuarios que son amigos el primero con el segundo, el segundo con el tercero y así sucesivamente hasta el final de la lista. Dicha lista comienza con el primer usuario ingresado como parámetro y termina con el segundo.
+-- Determina si existe una lista de usuarios que son amigos el primero con el segundo, el segundo con el tercero y así sucesivamente hasta el final de la lista. Dicha lista comienza con el primer usuario ingresado como parámetro y termina con el segundo.
 existeSecuenciaDeAmigos :: RedSocial -> Usuario -> Usuario -> Bool
 existeSecuenciaDeAmigos ([],rel,posts) us1 us2 = False
 existeSecuenciaDeAmigos ([x],rel,posts) us1 us2 = False
