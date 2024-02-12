@@ -22,7 +22,7 @@ clona todo el repositorio en una carpeta
 enumere todas las ramas (incluida la principal). aparecerá un * junto a la rama actualmente activa
 
 ```git branch [branch-name]``` <br />
-crear una nueva rama en la confirmación actual (no trabajar directamente sombre la rama principal mean)
+crear una nueva rama en la confirmación actual
 
 #### Para trabajar con esa nueva rama
 ```git checkout [branch-name]``` <br />
